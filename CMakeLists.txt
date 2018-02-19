@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(realtime_urdf_filter)
 
+set(CMAKE_CXX_FLAGS "-O3 -std=c++11")
+
 find_package(ASSIMP QUIET)
 if (NOT ASSIMP_FOUND)
   find_package(PkgConfig REQUIRED)
@@ -37,12 +39,18 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
 #  DEPEND
-  # CATKIN_DEPENDS
+  CATKIN_DEPENDS roscpp
+    nodelet
+    urdf
+    tf
+    resource_retriever
+    cv_bridge
+    image_transport
   INCLUDE_DIRS include
   # LIBRARIES urdf_filter shadowwrapper
   )
 
-include_directories(${catkin_INCLUDE_DIR} include)
+include_directories(${catkin_INCLUDE_DIRS} include)
 include_directories(SYSTEM ${ASSIMP_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS} ${ASSIMP_LIBRARY_DIRS})
 

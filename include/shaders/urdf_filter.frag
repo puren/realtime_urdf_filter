@@ -1,5 +1,7 @@
 #version 140
 in vec4 normal;
+in vec4 color; 
+
 uniform int width;
 uniform int height;
 uniform samplerBuffer depth_texture;
@@ -33,6 +35,9 @@ void main(void)
 
   // fourth color attachment: difference image
   gl_FragData[3] = vec4(should_filter, should_filter, should_filter, 0.0);
+  
+  // fifth color attachment: labels image
+  gl_FragData[4] = color;
 }
 
 		

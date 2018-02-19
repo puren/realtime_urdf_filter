@@ -69,6 +69,9 @@ struct Renderable
   urdf::Color color;
   void applyTransform ();
   void unapplyTransform ();
+  std::string getName () { return name; }
+  void setLinkLabel(double ml) { link_label = ml; }
+  float link_label;
 };
 
 struct RenderableBox : public Renderable
@@ -109,7 +112,6 @@ struct RenderableMesh : public Renderable
 
   virtual void render ();
   void setScale (float x, float y, float z);
-
 private:
   struct Vertex
   {

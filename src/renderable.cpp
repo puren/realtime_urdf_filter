@@ -80,6 +80,7 @@ namespace realtime_urdf_filter
   void RenderableSphere::render ()
   {
     applyTransform ();
+    glColor3f (link_label, link_label, link_label);
     glutSolidSphere(radius, 10, 10);
     unapplyTransform ();
   }
@@ -92,6 +93,7 @@ namespace realtime_urdf_filter
   void RenderableCylinder::render ()
   {
     applyTransform ();
+    glColor3f (link_label, link_label, link_label);
     glTranslatef (0, 0, -length/2);
     //glutSolidCylinder(radius, length, 10, 10);
     unapplyTransform ();
@@ -108,7 +110,8 @@ namespace realtime_urdf_filter
   {
     applyTransform ();
 
-    glColor3f (color.r, color.g, color.b);
+    //glColor3f (color.r, color.g, color.b);
+    glColor3f (link_label, link_label, link_label);
 
     // Enable Pointers
     glEnableClientState (GL_VERTEX_ARRAY);
@@ -422,14 +425,17 @@ namespace realtime_urdf_filter
   {
     applyTransform ();
     glScalef (scale_x, scale_y, scale_z);
+    glColor3f (link_label, link_label, link_label);
     glEnableVertexAttribArray (0);
     glEnableVertexAttribArray (2);
+    //glEnableVertexAttribArray (3);
 
     for (unsigned int i = 0 ; i < meshes.size() ; i++)
     {
       glBindBuffer (GL_ARRAY_BUFFER, meshes[i].vbo);
       glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, sizeof (Vertex), 0);
       glVertexAttribPointer (2, 3, GL_FLOAT, GL_FALSE, sizeof (Vertex), (const GLvoid*) (sizeof(float)*3));
+      //glVertexAttribPointer (3, 3, GL_FLOAT, GL_FALSE, sizeof (Vertex), (const GLvoid*) (sizeof(float)*6));
 
       glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, meshes[i].ibo);
 
@@ -445,6 +451,7 @@ namespace realtime_urdf_filter
 
     glDisableVertexAttribArray (0);
     glDisableVertexAttribArray (2);
+    //glDisableVertexAttribArray (3);
     unapplyTransform ();
   }
 

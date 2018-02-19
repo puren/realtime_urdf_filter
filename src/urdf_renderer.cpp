@@ -160,8 +160,16 @@ namespace realtime_urdf_filter
     update_link_transforms ();
       
     std::vector<boost::shared_ptr<Renderable> >::const_iterator it = renderables_.begin ();
-    for (; it != renderables_.end (); it++)
+    std::cerr<<"Rendering :\n";
+    int i=0;
+    for (; it != renderables_.end (); it++) {
+      float cl = 0.5+(float)i/(float)(2*renderables_.size()+1);
+      //std::cerr<<"color "<<cl<<std::endl;
+      (*it)->setLinkLabel(cl);
       (*it)->render ();
+      i++;
+    //  std::cerr<<(*it)->getName()<<std::endl;
+    }
   }
 
 }

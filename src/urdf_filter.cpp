@@ -414,7 +414,7 @@ void RealtimeURDFFilter::initGL ()
 void RealtimeURDFFilter::initFrameBufferObject ()
 {
 
-  fbo_ = new FramebufferObject("rgba=4x32t depth=24t stencil=8t");
+  fbo_ = new FramebufferObject("rgba=5x32t depth=24t stencil=8t");
   fbo_->initialize(width_, height_);
 
   fbo_initialized_ = true;
@@ -481,7 +481,8 @@ void RealtimeURDFFilter::render (const double* camera_projection_matrix)
     GL_COLOR_ATTACHMENT0,
     GL_COLOR_ATTACHMENT1,
     GL_COLOR_ATTACHMENT2,
-    GL_COLOR_ATTACHMENT3
+    GL_COLOR_ATTACHMENT3,
+    GL_COLOR_ATTACHMENT4
   };
 
   GLenum err;
@@ -682,7 +683,7 @@ void RealtimeURDFFilter::render (const double* camera_projection_matrix)
           glTexCoord2f(0.0, 0.0);
           glVertex2f(0.333, 0.5);
         glEnd();
-
+        
         // draw depth buffer 
         fbo_->bindDepth();
         glBegin(GL_QUADS);
@@ -695,6 +696,20 @@ void RealtimeURDFFilter::render (const double* camera_projection_matrix)
           glTexCoord2f(0.0, 0.0);
           glVertex2f(0.666, 1.0);
         glEnd();
+	
+	// draw color buffer 4
+        fbo_->bind(4);
+        glBegin(GL_QUADS);
+          glTexCoord2f(0.0, fbo_->getHeight());
+          glVertex2f(0.666, 0.0);
+          glTexCoord2f(fbo_->getWidth(), fbo_->getHeight());
+          glVertex2f(1.0, 0.0);
+          glTexCoord2f(fbo_->getWidth(), 0.0);
+          glVertex2f(1.0, 0.5);
+          glTexCoord2f(0.0, 0.0);
+          glVertex2f(0.666, 0.5);
+        glEnd();
+
 
       glPopMatrix();
       glMatrixMode(GL_PROJECTION);
@@ -705,7 +720,7 @@ void RealtimeURDFFilter::render (const double* camera_projection_matrix)
   glGetTexImage (fbo_->getTextureTarget(), 0, GL_RED, GL_FLOAT, masked_depth_);
   if (need_mask_)
   {
-    fbo_->bind(3);
+    fbo_->bind(4);
     glGetTexImage (fbo_->getTextureTarget(), 0, GL_RED, GL_UNSIGNED_BYTE, mask_);
   }
 
