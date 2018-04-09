@@ -114,6 +114,7 @@ namespace realtime_urdf_filter
     }
     else if (link->visual->geometry->type == urdf::Geometry::MESH)
     {
+      //visual tag
       boost::shared_ptr<urdf::Mesh> mesh = boost::dynamic_pointer_cast<urdf::Mesh> (link->visual->geometry);
       std::string meshname (mesh->filename);
       RenderableMesh* rm = new RenderableMesh (meshname);
