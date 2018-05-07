@@ -65,6 +65,9 @@ RealtimeURDFFilter::RealtimeURDFFilter (ros::NodeHandle &nh, int argc, char **ar
   ROS_ASSERT (v.getType() == XmlRpc::XmlRpcValue::TypeString && "need a camera_frame paramter!");
   cam_frame_ = (std::string)v;
   ROS_INFO ("using camera frame %s", cam_frame_.c_str ());
+  
+  nh_.param ("max_range", far_plane_, 8.0);
+  ROS_INFO ("using max sensor range %lf", far_plane_);
 
   // read additional camera offset (TODO: make optional)
   nh_.getParam ("camera_offset", v);
